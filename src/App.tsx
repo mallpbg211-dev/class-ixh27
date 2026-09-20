@@ -283,48 +283,6 @@ export default function App() {
     // Realtime class configuration & PINs listener (collection 'settings', doc 'classConfig')
     const unsubClassConfig = subscribeClassSettings((remoteConfig) => {
       setClassConfig(remoteConfig);
-      if (remoteConfig.examDate || remoteConfig.graduationDate) {
-        setCountdownEvents((prev) => {
-          const updated = [...prev];
-          if (remoteConfig.examDate) {
-            const target = remoteConfig.examDate.includes('T')
-              ? remoteConfig.examDate
-              : `${remoteConfig.examDate}T07:30:00`;
-            const idx = updated.findIndex((e) => e.category === 'Ujian' || e.id === 'cd-1');
-            if (idx !== -1) {
-              updated[idx] = { ...updated[idx], targetDate: target, active: true };
-            } else {
-              updated.unshift({
-                id: 'cd-1',
-                title: 'Asesmen Sumatif Akhir Jenjang (Ujian Sekolah)',
-                targetDate: target,
-                description: 'Ujian penentu kelulusan SMP. Persiapkan mental dan belajar bersama!',
-                category: 'Ujian',
-                active: true,
-              });
-            }
-          }
-          if (remoteConfig.graduationDate) {
-            const target = remoteConfig.graduationDate.includes('T')
-              ? remoteConfig.graduationDate
-              : `${remoteConfig.graduationDate}T08:00:00`;
-            const idx = updated.findIndex((e) => e.category === 'Kelulusan' || e.id === 'cd-2');
-            if (idx !== -1) {
-              updated[idx] = { ...updated[idx], targetDate: target, active: true };
-            } else {
-              updated.push({
-                id: 'cd-2',
-                title: 'Wisuda & Pengumuman Kelulusan Angkatan IX',
-                targetDate: target,
-                description: 'Momen perayaan pelepasan dan kelulusan 100% siswa kelas IX-H.',
-                category: 'Kelulusan',
-                active: true,
-              });
-            }
-          }
-          return updated;
-        });
-      }
     });
 
     // Realtime cash listener (collection 'cash', doc 'main')

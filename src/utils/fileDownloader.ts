@@ -5,11 +5,30 @@
  */
 import type { jsPDF } from 'jspdf';
 import * as XLSX from 'xlsx';
+import { Capacitor } from '@capacitor/core';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
 
 export interface SaveFileResult {
   success: boolean;
   method: 'share' | 'download' | 'blob_url' | 'cancelled';
   error?: string;
+}
+
+/**
+ * Converts a Blob to a base64-encoded string for Capacitor Filesystem API
+ */
+function blobToBase64(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(reader.error || new Error('Gagal membaca data berkas'));
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      const base64 = dataUrl.includes(',') ? dataUrl.split(',')[1] : dataUrl;
+      resolve(base64);
+    };
+    reader.readAsDataURL(blob);
+  });
 }
 
 /**
@@ -34,7 +53,8 @@ export function isStandalonePWA(): boolean {
 
 /**
  * Bulletproof file saver that tries:
- * 1. Web Share API (if supported on mobile/standalone)
+ * 0. Capacitor Native Filesystem + Share (for Android/iOS APK builds)
+ * 1. Web Share API (if supported on mobile/standalone browser)
  * 2. Anchor click with Blob URL
  * 3. Fallback to opening Blob in a new tab or prompting the user
  */
@@ -45,6 +65,30 @@ export async function downloadOrShareBlob(
 ): Promise<SaveFileResult> {
   const mimeType = blob.type || 'application/octet-stream';
   const displayTitle = title || filename;
+
+  // 0. Jalur khusus native APK (Capacitor)
+  if (Capacitor.isNativePlatform()) {
+    try {
+      const base64Data = await blobToBase64(blob);
+      const writeResult = await Filesystem.writeFile({
+        path: filename,
+        data: base64Data,
+        directory: Directory.Cache,
+      });
+
+      await Share.share({
+        title: displayTitle,
+        text: `Unduh berkas: ${filename}`,
+        url: writeResult.uri,
+        dialogTitle: 'Simpan atau Bagikan Laporan',
+      });
+
+      return { success: true, method: 'share' };
+    } catch (nativeErr: unknown) {
+      console.error('[Capacitor Native Download/Share Error]:', nativeErr);
+      // Fallback ke alur web standar di bawah jika terjadi kegagalan
+    }
+  }
 
   // 1. Try Web Share API on mobile devices or standalone PWA
   if (isMobileOrAndroid() || isStandalonePWA()) {

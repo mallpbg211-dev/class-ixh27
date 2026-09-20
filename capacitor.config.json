@@ -3,7 +3,7 @@
   "appName": "IX-H Smart Hub",
   "webDir": "dist",
   "server": {
-    "url": "https://app-ixh12-production.up.railway.app",
+    "url": "https://class-ixh27-production.up.railway.app",
     "cleartext": true
   }
 }

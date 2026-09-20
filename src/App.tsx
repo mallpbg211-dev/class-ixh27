@@ -552,7 +552,7 @@ export default function App() {
           picketDuties={picketDuties}
           onUpdatePicketDuties={handleUpdatePicketDuties}
           attendance={attendance}
-          onUpdateAttendance={setAttendance}
+          onUpdateAttendance={handleUpdateAttendance}
           materials={materials}
           onUpdateMaterials={handleUpdateMaterials}
           initialTab={adminInitialTab}

@@ -1,0 +1,35 @@
+{
+  "id": "/",
+  "name": "IX-H Hub - Aplikasi Kelas IX-H",
+  "short_name": "IX-H Hub",
+  "description": "Aplikasi Profil Kelas IX-H dengan bagan organisasi, rekap kas harian, jadwal piket & pelajaran, serta game hub interaktif.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#E7EBF5",
+  "theme_color": "#1C5FE0",
+  "lang": "id",
+  "dir": "ltr",
+  "categories": ["education", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

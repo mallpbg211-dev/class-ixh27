@@ -1,0 +1,9 @@
+{
+  "appId": "com.ixh.app",
+  "appName": "IX-H Smart Hub",
+  "webDir": "dist",
+  "server": {
+    "url": "https://app-ixh12-production.up.railway.app",
+    "cleartext": true
+  }
+}

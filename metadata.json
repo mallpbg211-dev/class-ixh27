@@ -1,0 +1,6 @@
+{
+  "name": "IX-H Hub",
+  "description": "Aplikasi Profil Kelas IX-H dengan gaya desain Neumorphism (soft 3D), bagan organisasi hierarkis 12 pengurus, rekap kas harian 32 siswa, jadwal pelajaran & piket, serta game hub.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

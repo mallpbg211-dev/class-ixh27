@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 1. Settings Collection (Class Identity & Admin/Kas PIN, and TKA Config)
+    // Strict validation on fields to prevent arbitrary corruption or malicious overwrite
+    match /settings/{docId} {
+      allow read: if true;
+      allow write: if (docId == 'classConfig'
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 2
+        && request.resource.data.name.size() <= 100
+        && request.resource.data.adminPin is string
+        && request.resource.data.adminPin.size() >= 4
+        && request.resource.data.adminPin.size() <= 20
+        && request.resource.data.kasPin is string
+        && request.resource.data.kasPin.size() >= 4
+        && request.resource.data.kasPin.size() <= 20
+        && (request.resource.data.waliKelas == null || (request.resource.data.waliKelas is string && request.resource.data.waliKelas.size() <= 100))
+        && (request.resource.data.waliKelasSubject == null || (request.resource.data.waliKelasSubject is string && request.resource.data.waliKelasSubject.size() <= 150))
+        && (request.resource.data.motto == null || (request.resource.data.motto is string && request.resource.data.motto.size() <= 250))
+        && (request.resource.data.examDate == null || (request.resource.data.examDate is string && request.resource.data.examDate.size() <= 50))
+        && (request.resource.data.graduationDate == null || (request.resource.data.graduationDate is string && request.resource.data.graduationDate.size() <= 50)))
+        || (docId == 'tkaConfig');
+    }
+
+    // 2. Students Collection
+    match /students/{studentId} {
+      allow read: if true;
+      allow create, update: if request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 100;
+      allow delete: if true;
+    }
+
+    // 3. Daily Attendance Collection
+    match /attendance/{date} {
+      allow read: if true;
+      allow write: if request.resource.data.date is string;
+    }
+
+    // 4. Cash Data Collection
+    match /cash/{docId} {
+      allow read: if true;
+      allow write: if docId == 'main';
+    }
+
+    // 5. Lesson Schedule Collection
+    match /lessons/{docId} {
+      allow read: if true;
+      allow write: if docId == 'schedule';
+    }
+
+    // 6. Picket Duties Collection
+    match /picketDuties/{docId} {
+      allow read: if true;
+      allow write: if docId == 'roster';
+    }
+
+    // 7. TKA Questions Collection (Bank Soal)
+    match /tkaQuestions/{questionId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // 8. TKA Packages Collection (Paket Try Out)
+    match /tkaPackages/{packageId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // 9. TKA Results Collection (Riwayat & Hasil Try Out Siswa)
+    match /tkaResults/{resultId} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}

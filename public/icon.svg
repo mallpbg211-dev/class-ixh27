@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2D72F6" />
+      <stop offset="100%" stop-color="#1448B3" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#0F2B66" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <!-- Background with rounded corners -->
+  <rect width="512" height="512" rx="110" fill="url(#bg)" />
+  <!-- Inner soft neumorphic ring -->
+  <circle cx="256" cy="230" r="145" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="12" />
+  <!-- Main Emblem -->
+  <g filter="url(#shadow)">
+    <!-- Graduation / Class Shield icon -->
+    <path d="M256 120 L370 176 L256 232 L142 176 Z" fill="#FFFFFF" />
+    <path d="M340 200 L340 270 C340 310 256 344 256 344 C256 344 172 310 172 270 L172 200 L256 242 Z" fill="rgba(255,255,255,0.92)" />
+    <!-- Text Badge IX-H -->
+    <text x="256" y="278" font-family="'Poppins', system-ui, -apple-system, sans-serif" font-size="44" font-weight="900" fill="#1448B3" text-anchor="middle" letter-spacing="2">IX-H</text>
+  </g>
+  <!-- Bottom Banner label -->
+  <rect x="136" y="380" width="240" height="56" rx="28" fill="#FFFFFF" />
+  <text x="256" y="418" font-family="'Poppins', system-ui, -apple-system, sans-serif" font-size="24" font-weight="800" fill="#1C5FE0" text-anchor="middle" letter-spacing="3">HUB KELAS</text>
+</svg>
